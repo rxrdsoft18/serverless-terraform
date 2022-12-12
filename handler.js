@@ -15,6 +15,8 @@ module.exports.hello = async (event) => {
         // fakeName: fakeName,
         SENDER_MAIL: process.env.SENDER_MAIL,
         APP_URL: process.env.APP_URL,
+        USER_POOL_ID: process.env.USER_POOL_ID,
+        USER_POOL_CLIENT_ID: process.env.USER_POOL_CLIENT_ID,
       },
       null,
       2

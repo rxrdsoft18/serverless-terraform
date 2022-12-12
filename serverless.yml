@@ -23,6 +23,8 @@ provider:
     TEMPLATE_TABLE: ${opt:stage,'dev'}-stpg-templates
     TEMPLATE: ""
     TEMPLATE2: ""
+    USER_POOL_ID: ${ssm:/user-pool-id}
+    USER_POOL_CLIENT_ID: ${ssm:/user-pool-client-id}
 
 
 params:
