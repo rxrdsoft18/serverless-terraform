@@ -1,0 +1,60 @@
+
+service: test-app-api
+# app and org for use with dashboard.serverless.com
+#app: your-app-name
+#org: your-org-name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage,'dev'}
+  environment:
+    SENDER_MAIL: ${param:SENDER_MAIL}
+    APP_URL: ${param:APP_URL}
+    INCIDENTE_TABLE: ${opt:stage,'dev'}-stpg-incidents
+    COMPONENTE_TABLE: ${opt:stage,'dev'}-stpg-components
+    SUSCRIPTOR_TABLE: ${opt:stage,'dev'}-stpg-subscribers
+    MAINTENANCE_TABLE: ${opt:stage,'dev'}-stpg-maintenances
+    PLATFORM_TABLE: ${opt:stage,'dev'}-stpg-platforms
+    TEMPLATE_TABLE: ${opt:stage,'dev'}-stpg-templates
+    TEMPLATE: ""
+    TEMPLATE2: ""
+
+
+params:
+  prod:
+    SENDER_MAIL: ''
+    APP_URL: ''
+  dev:
+    SENDER_MAIL: jreynoso.mena@gmail.com
+    APP_URL: https://teststatuspage.niubiz.com.pe
+
+layers:
+    layerTest:
+        path: dependencies
+        description: 'Layer with dependencies'
+        retain: false
+        compatibleRuntimes:
+        - nodejs14.x
+
+functions:
+  hello:
+    handler: handler.hello
+    layers:
+      - !Ref LayerTestLambdaLayer
+    events:
+      - http:
+          path: hello
+          method: get
+          cors: true
+      - http:
+          path: hello
+          method: post
+          cors: true
+
+plugins:
+  - serverless-offline
